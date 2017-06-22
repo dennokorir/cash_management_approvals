@@ -1,0 +1,27 @@
+<openerp>
+    <data>
+        <record model = 'ir.ui.view' id = 'cash_management_bank_transfer_approvals_view'>
+            <field name = 'name'>Bank and Cash Transfer Approvals</field>
+            <field name = 'model'>cash.management.bank.transfer.header</field>
+            <field name = 'inherit_id' ref = 'cash_management.cash_management_bank_transfer_form'/>
+            <field name = 'arch' type = 'xml'>
+                <xpath expr="//button[@name='action_post']" position="after">
+                    <button name="sendApprovalRequest" type = "object" confirm = "Send approval request?" string = "Send Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+                    <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
+                    <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
+                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
+                    <field name = 'state' widget = 'statusbar'/>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button name = '%(tritel.approval_entry_list_action)d' class = "oe_inline oe_stat_button" type = 'action' icon="fa-check-square-o" context="{'search_default_document_no':name, 'search_default_document_type':'bank_transfer'}">
+                            <field name = 'approvers' string = "Approvals" widget = 'statinfo'/>
+                        </button>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
