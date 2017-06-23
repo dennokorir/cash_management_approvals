@@ -9,7 +9,7 @@
                     <button name="sendApprovalRequest" type = "object" confirm = "Send approval request?" string = "Send Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
                     <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
                     <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
-                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
+                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('current_approver','=',False)]}"/>
                     <field name = 'state' widget = 'statusbar'/>
                 </xpath>
 

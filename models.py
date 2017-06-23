@@ -89,6 +89,7 @@ class bank_transfer_approvals(models.Model):
             next_approval_entry = min(next_approval_entry)
             next_approval_entry.status = 'open'
             self.state = 'pending'
+            self.current_approver = next_approval_entry.approver.id
             return False
         else:
             self.state = 'approved'
