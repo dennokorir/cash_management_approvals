@@ -16,7 +16,7 @@ class bank_transfer_approvals(models.Model):
 
     approvers = fields.Integer(compute = 'count_approvers')
     approval_entries = fields.One2many('approval.entry','bank_transfer_id')
-    state = fields.Selection([('open',"Open"),('pending',"Pending Approval"),('approved',"Approved"),('rejected',"Rejected")], default = 'open')
+    #state = fields.Selection([('open',"Open"),('pending',"Pending Approval"),('approved',"Approved"),('rejected',"Rejected")], default = 'open')
 
     @api.one
     @api.depends('approval_entries')
