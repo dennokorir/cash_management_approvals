@@ -5,11 +5,12 @@
             <field name = 'model'>cash.management.bank.transfer.header</field>
             <field name = 'inherit_id' ref = 'cash_management.cash_management_bank_transfer_form'/>
             <field name = 'arch' type = 'xml'>
-                <xpath expr="//button[@name='action_post']" position="after">
+                <xpath expr="//button[@name='action_post']" position="replace">
+                    <button name="action_post" type = "object" string = "Post"  confirm = "Transfer Funds?" class='oe_highlight' attrs="{'invisible': [('state', '!=', 'approved')]}"/>
                     <button name="sendApprovalRequest" type = "object" confirm = "Send approval request?" string = "Send Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
-                    <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
-                    <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
-                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('current_approver','=',False)]}"/>
+                    <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','!=',False)]}" />
+                    <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
+                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
                     <field name = 'state' widget = 'statusbar'/>
                 </xpath>
 
@@ -18,9 +19,77 @@
                         <button name = '%(tritel.approval_entry_list_action)d' class = "oe_inline oe_stat_button" type = 'action' icon="fa-check-square-o" context="{'search_default_document_no':name, 'search_default_document_type':'bank_transfer'}">
                             <field name = 'approvers' string = "Approvals" widget = 'statinfo'/>
                         </button>
-
                     </div>
                 </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name = 'current_approver' invisible = 'True'/>
+                    <field name = 'show' invisible = 'True'/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record model = 'ir.ui.view' id = 'cash_management_payment_voucher_approvals_view'>
+            <field name = 'name'>Payment Voucher Approvals</field>
+            <field name = 'model'>cash.management.payment.header</field>
+            <field name = 'inherit_id' ref = 'cash_management.cash_management_payments_form'/>
+            <field name = 'arch' type = 'xml'>
+                <xpath expr="//button[@name='action_post']" position="replace">
+                    <button name="action_post" type = "object" string = "Post"  confirm = "Do you want to post?" class='oe_highlight' attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                    <button name="sendApprovalRequest" type = "object" confirm = "Send approval request?" string = "Send Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+                    <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','!=',False)]}" />
+                    <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
+                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
+                    <button name="reset_to_draft" type = "object" confirm = "Reset to Draft?" string = "Reset to Draft" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'rejected')]}"/>
+                    <field name = 'state' widget = 'statusbar'/>
+                </xpath>
+
+                <xpath expr="//group[@name='General']" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button name = '%(tritel.approval_entry_list_action)d' class = "oe_inline oe_stat_button" type = 'action' icon="fa-check-square-o" context="{'search_default_document_no':name, 'search_default_document_type':'payment_voucher'}">
+                            <field name = 'approvers' string = "Approvals" widget = 'statinfo'/>
+                        </button>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name = 'current_approver' invisible = 'True'/>
+                    <field name = 'show' invisible = 'True'/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model = 'ir.ui.view' id = 'cash_management_petty_cash_approvals_view'>
+            <field name = 'name'>Petty Cash Approvals</field>
+            <field name = 'model'>cash.management.petty.cash.header</field>
+            <field name = 'inherit_id' ref = 'cash_management.cash_management_petty_cash_form'/>
+            <field name = 'arch' type = 'xml'>
+                <xpath expr="//button[@name='action_post']" position="replace">
+                    <button name="action_post" type = "object" string = "Post"  confirm = "Do you want to post?" class='oe_highlight' attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                    <button name="sendApprovalRequest" type = "object" confirm = "Send approval request?" string = "Send Approval Request" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+                    <button name="cancelApprovalRequest" type = "object" confirm = "Cancel approval request?" string = "Cancel Approval Request" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','!=',False)]}" />
+                    <button name="approveApprovalRequest" type = "object" confirm = "Approve approval request?" string = "Approve" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
+                    <button name="rejectApprovalRequest" type = "object" confirm = "Reject approval request?" string = "Reject" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'pending'),('show','=',False)]}"/>
+                    <button name="reset_to_draft" type = "object" confirm = "Reset to Draft?" string = "Reset to Draft" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'rejected')]}"/>
+                    <field name = 'state' widget = 'statusbar'/>
+                </xpath>
+
+                <xpath expr="//group[@name='General']" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button name = '%(tritel.approval_entry_list_action)d' class = "oe_inline oe_stat_button" type = 'action' icon="fa-check-square-o" context="{'search_default_document_no':name, 'search_default_document_type':'petty_cash'}">
+                            <field name = 'approvers' string = "Approvals" widget = 'statinfo'/>
+                        </button>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name = 'current_approver' invisible = 'True'/>
+                    <field name = 'show' invisible = 'True'/>
+                </xpath>
+
             </field>
         </record>
     </data>
